@@ -2,37 +2,28 @@
 #include <vector>
 using namespace std;
 
-int sort(vector<int> numVec, vector<int> zeroVec, int direction){
-    int count = 0, zeroIdx;
-    int cycle = zeroVec.size();
-    for(int i=0; i<cycle; i++){
-        if(direction == 1){
-            zeroIdx = zeroVec.back();
-            zeroVec.pop_back();
-            if(zeroIdx == numVec.size()-1){
-                continue;
-            }
-        }else{
-            zeroIdx = zeroVec.front();
-            zeroVec.erase(zeroVec.begin());
-            if(zeroIdx == 0){
-                continue;
-            }
-        }
-
-        while(true){
-            if(numVec[zeroIdx+direction] == 0 ){
-                break;
-            }
-            int temp = numVec[zeroIdx];
-            numVec[zeroIdx] = numVec[zeroIdx+direction];
-            numVec[zeroIdx+direction] = temp;
-            zeroIdx += direction;
-            count++;
-        }
-
+int sortRight(vector<int> numVec, vector<int> zeroVec){
+    int count = numVec.size()-1;
+    int sum = 0;
+    while(!zeroVec.empty()){
+        sum += count - zeroVec.back();
+        count--;
+        zeroVec.pop_back();
     }
-    return count;
+
+    return sum;
+}
+
+int sortLeft(vector<int> numVec, vector<int> zeroVec){
+    int count = 0;
+    int sum = 0;
+    while(!zeroVec.empty()){
+        sum += zeroVec.front() - count;
+        count++;
+        zeroVec.erase(zeroVec.begin());
+    }
+
+    return sum;
 }
 
 int main(){
@@ -50,8 +41,8 @@ int main(){
     }
 
     int output1, output2;
-    output1 = sort(numVec, zeroVec, 1);
-    output2 = sort(numVec, zeroVec, -1);
+    output1 = sortRight(numVec, zeroVec);
+    output2 = sortLeft(numVec, zeroVec);
     if(output1 < output2){
         cout << output1;
     }else{
