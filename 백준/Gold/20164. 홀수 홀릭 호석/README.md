@@ -12,7 +12,7 @@
 
 ### 제출 일자
 
-2023년 11월 27일 22:20:31
+2023년 11월 27일 22:42:11
 
 ### 문제 설명
 
@@ -29,7 +29,7 @@
 
 <p>호석이는 연산이 종료된 순간에 종이에 적힌 수들을 모두 더한다. 그렇게 최종적으로 얻은 수를 최종값이라고 하자. 예를 들어, 시작하는 수가 82019 라고 하자. 그럼 아래와 같이 나누게 되면 5개의 홀수를 볼 수 있기 때문에, 최종값이 5가 된다.</p>
 
-<p style="text-align: center;"><img alt="" src="https://imgur.com/gallery/a517nMU"><img alt="" src="https://i.imgur.com/9KTixpv.png" style="width: 562px; height: 511px;"></p>
+<p style="text-align: center;"><img alt="" src=""><img alt="" src="" style="width: 562px; height: 511px;"></p>
 
 <p>시작할 때 호석이가 가진 수를 <em>N</em> 이라고 했을 때, 만들 수 있는 최종값 중 최솟값과 최댓값을 구해주자.</p>
 
