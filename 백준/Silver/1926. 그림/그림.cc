@@ -1,6 +1,6 @@
 #include <iostream>
 #include <queue>
-#include <vector>
+#include <utility>
 #include <algorithm>
 using namespace std;
 
@@ -27,7 +27,7 @@ int main(){
     for(int i=0; i<r; i++){
         for(int j=0; j<c; j++){
             if(arr[i][j] == 0 || visited[i][j]) continue;
-            q.push({i, j});
+            q.push(pair<int, int>(i, j));
             visited[i][j] = true;
             num++;
 
@@ -41,7 +41,7 @@ int main(){
                     if(tempX < 0 || tempX >= r || tempY < 0 || tempY >= c) continue;
                     if(arr[tempX][tempY] == 0 || visited[tempX][tempY]) continue;
                     visited[tempX][tempY] = true;
-                    q.push({tempX, tempY});
+                    q.push(pair<int,int>(tempX,tempY));
                 }
             }
             mx = max(mx, area);
