@@ -27,8 +27,9 @@ int main(){
         result = 0;
         vector<int> isTeam;
         for(int i=1; i<=student; i++){
-            if(visited[i]) continue;
+            if(visited[i]) continue;    //이미 지나간 길이면 패스
 
+            //팀을 이룰 수 있는지 체크
             q.push(i);
             cur = i;
             while(true){
@@ -39,6 +40,7 @@ int main(){
                 cur = nxt;
             }
 
+            //사이클이 있는지 체크
             int idx = -1;
             for(int j=0; j<isTeam.size(); j++){
                 if(nxt == isTeam[j]) {
@@ -47,9 +49,9 @@ int main(){
                 }
             }
 
-            if(idx == -1){
+            if(idx == -1){  //사이클이 없는 경우
                 result += isTeam.size();
-            }else{
+            }else{      //사이클이 생긴경우
                 result += idx;
             }
             isTeam.clear();
