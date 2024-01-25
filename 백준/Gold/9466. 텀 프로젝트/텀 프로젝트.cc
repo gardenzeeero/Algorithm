@@ -11,7 +11,7 @@ int main(){
     int tc;
     cin >> tc;
 
-    int student, want, cur, nxt, result;
+    int student, cur, nxt, result;
     int arr[100001];
     int visited[100001];
 
@@ -19,8 +19,7 @@ int main(){
     while(tc--){
         cin >> student;
         for(int i=1; i<=student; i++){
-            cin >> want;
-            arr[i] = want;
+            cin >> arr[i];
             visited[i] = false;
         }
 
@@ -31,13 +30,13 @@ int main(){
             if(visited[i]) continue;
 
             q.push(i);
-            while(!q.empty()){
-                cur = q.front(); q.pop();
+            cur = i;
+            while(true){
                 isTeam.push_back(cur);
                 visited[cur] = true;
                 nxt = arr[cur];
                 if(visited[nxt]) break;
-                q.push(nxt);
+                cur = nxt;
             }
 
             int idx = -1;
