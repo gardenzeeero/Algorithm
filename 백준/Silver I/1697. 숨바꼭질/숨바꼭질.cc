@@ -22,13 +22,11 @@ int main(){
         int next = cur + 1;
         if(arr[next] > arr[cur] + 1) {
             arr[next] = arr[cur] + 1;
-//            cout << next << ":" << arr[next] << "\n";
             q.push(next);
         }
         next = cur - 1;
         if(arr[next] > arr[cur] + 1) {
             arr[next] = arr[cur] + 1;
-//            cout << next << ":" << arr[next] << "\n";
             q.push(next);
         }
 
@@ -36,7 +34,6 @@ int main(){
             next = cur/2;
             if(arr[next] > arr[cur] + 1) {
                 arr[next] = arr[cur] + 1;
-//                cout << next << ":" << arr[next] << "\n";
                 q.push(next);
             }
         }
