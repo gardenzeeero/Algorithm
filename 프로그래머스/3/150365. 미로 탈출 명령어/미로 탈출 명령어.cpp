@@ -38,7 +38,7 @@ void dfs(int cx, int cy, int count, string st){
         else if(i == 1) temp = st + "l";
         else if(i == 2) temp = st + "r";
         else if(i == 3) temp = st + "u";
-        if(minSt != "" && check(temp)) continue;
+        if(minSt != "") break;;
         if(!canGo(nx, ny, count+1)) continue;
 
         dfs(nx, ny, count+1, temp);
@@ -49,15 +49,12 @@ string solution(int n, int m, int x, int y, int r, int c, int k) {
     fn = n; fm = m; fk = k; fr = r; fc = c;
     
     dfs(x, y, 0, "");
-    
     string answer;
     if(minSt == ""){
         answer = "impossible";
     }else{
         answer = minSt;
     }
-    
-    
     
     
     return answer;
