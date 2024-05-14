@@ -25,6 +25,7 @@ long long findCount(){
     return count;
 }
 
+//count는 diceVec의 Index라고 보면됨
 void recursive(int count, int bit){
     if(count == selVec.size()){
         if(bit == 1) sumA.push_back(tempSum);
@@ -32,7 +33,8 @@ void recursive(int count, int bit){
         return;
     }
     
-    if(selVec[count] != bit) recursive(count+1, bit);
+    //보고 있는 주사위가 아니라면 패스
+    if(selVec[count] != bit) recursive(count+1, bit); //모든 주사위를 훑어봐야하기 때문에 count+1
     else{
         for(int i=0; i<6; i++){
             tempSum += diceVec[count][i];
@@ -64,10 +66,10 @@ vector<int> solution(vector<vector<int>> dice) {
         else selVec.push_back(1);
     }
     
+    //모든 경우를 파악
     do{
         recursive(0, 1);
         recursive(0, 0);
-        sort(sumA.begin(), sumA.end());
         sort(sumB.begin(), sumB.end());
         
         findAnswer();
