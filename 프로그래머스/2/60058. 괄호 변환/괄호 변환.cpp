@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+//올바른 괄호 문자열인지 체크
 bool check(string p){
     vector<char> stack;
     int lc = 0, rc = 0;
@@ -8,13 +9,14 @@ bool check(string p){
         if(p[i] == '('){
             stack.push_back(p[i]);
         }else{
-            if(!stack.empty() && stack.back() == '(') stack.pop_back();
+            if(!stack.empty()) stack.pop_back();
             else return false;
         }
     }
     return true;
 }
 
+//처음으로 '(' 개수와 ')' 개수가 같아지는 순간
 int find(string p){
     int lc = 0, rc = 0;
     for(int i=0; i<p.length(); i++){
@@ -26,6 +28,7 @@ int find(string p){
     return p.length()-1;
 }
 
+//앞뒤 제거후 문자열 뒤집기
 string reverse(string p){
     string result = "";
     for(int i=1; i<p.length()-1; i++){
@@ -34,7 +37,6 @@ string reverse(string p){
     }
     return result;
 }
-
 
 string recursive(string p){
     if(p == "") return p;
