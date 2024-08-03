@@ -1,4 +1,4 @@
- #include <bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 int dist[501];
 map<pair<int, int>, int> road;
@@ -15,7 +15,7 @@ bool belman(int start){
         for(auto val : road){
             tempStart = val.first.first; tempEnd = val.first.second; tempTime = val.second;
             
-            if(dist[tempStart] == INF) continue;
+            // if(dist[tempStart] == INF) continue;
             if(dist[tempStart] + tempTime < dist[tempEnd]) {
                 dist[tempEnd] = dist[tempStart] + tempTime;
                 updated = true;
@@ -28,7 +28,7 @@ bool belman(int start){
     for(auto val : road){
         tempStart = val.first.first; tempEnd = val.first.second; tempTime = val.second;
 
-        if(dist[tempStart] == INF) continue;
+        // if(dist[tempStart] == INF) continue;
         if(dist[tempStart] + tempTime < dist[tempEnd]) flag = true;
     }
 
@@ -60,15 +60,15 @@ int main(){
         }
 
         //음수 사이클이 있는지 파악
-        bool flag = false;
-        for(int i=1; i<=n; i++){
-            if(belman(i)){
-                flag = true;
-                break;
-            }
-        }
+        // bool flag = false;
+        // for(int i=1; i<=n; i++){
+        //     if(belman(i)){
+        //         flag = true;
+        //         break;
+        //     }
+        // }
 
-        if(flag) cout << "YES" << "\n";
+        if(belman(1)) cout << "YES" << "\n";
         else cout << "NO" << "\n";
 
         road.clear();
