@@ -5,9 +5,8 @@ map<pair<int, int>, int> road;
 int tc, n, m, w, s, e, t;
 int INF = 0x7f7f7f7f;
 
-bool belman(int start){
+bool belman(){
     fill(dist + 1, dist + n + 1, INF);
-    dist[start] = 0;
 
     int tempStart, tempEnd, tempTime;
     for(int i=0; i<n-1; i++){
@@ -15,7 +14,6 @@ bool belman(int start){
         for(auto val : road){
             tempStart = val.first.first; tempEnd = val.first.second; tempTime = val.second;
             
-            // if(dist[tempStart] == INF) continue;
             if(dist[tempStart] + tempTime < dist[tempEnd]) {
                 dist[tempEnd] = dist[tempStart] + tempTime;
                 updated = true;
@@ -28,7 +26,6 @@ bool belman(int start){
     for(auto val : road){
         tempStart = val.first.first; tempEnd = val.first.second; tempTime = val.second;
 
-        // if(dist[tempStart] == INF) continue;
         if(dist[tempStart] + tempTime < dist[tempEnd]) flag = true;
     }
 
@@ -59,16 +56,7 @@ int main(){
             road[{s, e}] = t;
         }
 
-        //음수 사이클이 있는지 파악
-        // bool flag = false;
-        // for(int i=1; i<=n; i++){
-        //     if(belman(i)){
-        //         flag = true;
-        //         break;
-        //     }
-        // }
-
-        if(belman(1)) cout << "YES" << "\n";
+        if(belman()) cout << "YES" << "\n";
         else cout << "NO" << "\n";
 
         road.clear();
