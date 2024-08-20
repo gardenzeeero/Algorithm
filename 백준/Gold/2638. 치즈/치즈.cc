@@ -15,7 +15,7 @@ void spread(){
     // BFS를 통해 외부 공기 체크
     while(!aq.empty()){
         tie(cx, cy) = aq.front(); aq.pop();
-        isOut[cx][cy] = true;
+        isOut[cx][cy] = true;  //치즈가 녹아 공기가 된 공간 처리
 
         for(int i=0; i<4; i++){
             nx = cx + dx[i]; ny = cy + dy[i];
@@ -48,9 +48,9 @@ void check(){
         if(count >= 2){
             isCheese[cx][cy] = false;
             aq.push({cx, cy});
-        }else{
-            cq.push({cx, cy});
+            continue;
         }
+        cq.push({cx, cy});
        
     }
 }
