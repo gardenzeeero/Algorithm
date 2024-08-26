@@ -1,53 +1,29 @@
 #include <iostream>
-#include <vector>
+#include <algorithm>
 using namespace std;
 
-int sortRight(vector<int> numVec, vector<int> zeroVec){
-    int count = numVec.size()-1;
-    int sum = 0;
-    while(!zeroVec.empty()){
-        sum += count - zeroVec.back();
-        count--;
-        zeroVec.pop_back();
-    }
+int arr[1000001];
 
-    return sum;
-}
+int main(void) {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0); cout.tie(0);
 
-int sortLeft(vector<int> numVec, vector<int> zeroVec){
-    int count = 0;
-    int sum = 0;
-    while(!zeroVec.empty()){
-        sum += zeroVec.front() - count;
-        count++;
-        zeroVec.erase(zeroVec.begin());
-    }
+	long long n, i, c0 = 0, c1 = 0, cnt0 = 0, cnt1 = 0;
 
-    return sum;
-}
+	cin >> n;
+	for (i = 0; i < n; i++) { cin >> arr[i]; }
 
-int main(){
-    int arrSize;
-    cin >> arrSize;
+	for (i = 0; i < n; i++) {
+		if ((arr[i] % 2)) { // 홀수
+			c1++;
+			cnt0 += c0;
+		}
+		else { // 짝수
+			c0++;
+			cnt1 += c1;
+		}
+	}
+	cout << min(cnt0, cnt1);
 
-    int inputNum;
-    vector<int> numVec, zeroVec;
-    for(int i=0; i<arrSize; i++){
-        cin >> inputNum;
-        numVec.push_back(inputNum%2);
-        if(inputNum%2 == 0){
-            zeroVec.push_back(i);
-        }
-    }
-
-    int output1, output2;
-    output1 = sortRight(numVec, zeroVec);
-    output2 = sortLeft(numVec, zeroVec);
-    if(output1 < output2){
-        cout << output1;
-    }else{
-        cout << output2;
-    }
-
-
+	return 0;
 }
