@@ -1,4 +1,5 @@
 
+
 import java.io.*;
 import java.util.*;
 
@@ -124,8 +125,6 @@ public class Main {
                 if (arr[nx][ny] == 'X') {
                     lastPos.add(new Node(cn.swanNum, nx, ny));
                     arr[nx][ny] = '.';
-                } else {
-                    water.add(new Node(cn.swanNum, nx, ny));
                 }
                 visited[nx][ny][1] = cn.swanNum;
             }
