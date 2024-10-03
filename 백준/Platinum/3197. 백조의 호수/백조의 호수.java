@@ -1,5 +1,4 @@
 
-
 import java.io.*;
 import java.util.*;
 
@@ -111,7 +110,8 @@ public class Main {
 
     static void melt() {
 
-        Set<Node> lastPos = new HashSet<>();
+        Queue<Node> lastPos = new LinkedList<>();
+//        Set<Node> lastPos = new HashSet<>();
 
         while (!water.isEmpty()) {
             Node cn = water.poll();
