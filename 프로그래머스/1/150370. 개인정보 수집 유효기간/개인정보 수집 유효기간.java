@@ -56,8 +56,14 @@ class Solution {
         }
         
         month += termMonth;
-        year += (month - 1) / 12;
-        month = (month - 1) % 12 + 1;
+        if (month > 12) {
+            year += month / 12;
+            month %= 12;
+            if (month == 0) {
+                year -= 1;
+                month = 12;
+            }
+        }
         
         // System.out.println(year + " " + month + " " + day + " " + termMonth);
         
