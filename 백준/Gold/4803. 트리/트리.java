@@ -1,105 +1,79 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-
-    static int n, m;
-    static ArrayList<Edge> edges = new ArrayList<>();
-    static int[] parent;
-    static boolean[] hasCycle;
+    static ArrayList<Integer>[] edges;
+    static boolean[] visited;
+    static int n;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int t = 1;
+        int caseCount = 1;
         while (true) {
-            int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-            n = input[0];
-            m = input[1];
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
+            int m = Integer.parseInt(st.nextToken());
+
             if (n == 0 && m == 0) break;
 
-            edges = new ArrayList<>();
+            edges = new ArrayList[n + 1];
+            for (int i = 0; i <= n; i++) {
+                edges[i] = new ArrayList<>();
+            }
+            visited = new boolean[n + 1];
+
             for (int i = 0; i < m; i++) {
-                input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-                edges.add(new Edge(input[0], input[1]));
+                st = new StringTokenizer(br.readLine());
+                int first = Integer.parseInt(st.nextToken());
+                int second = Integer.parseInt(st.nextToken());
+                edges[first].add(second);
+                edges[second].add(first);
             }
-
-            parent = new int[n + 1];
-            hasCycle = new boolean[n + 1];
-            for (int i = 1; i <= n; i++) {
-                parent[i] = i;
-            }
-
-            findCycle();
 
             int result = 0;
             for (int i = 1; i <= n; i++) {
-                if (i == parent[i] && !hasCycle[i]) result++;
-            }
-            if (result == 0) {
-                System.out.println("Case " + t + ": No trees.");
-            } else if (result == 1) {
-                System.out.println("Case " + t + ": There is one tree.");
-            } else if (result >= 2) {
-                System.out.println("Case " + t + ": A forest of " + result + " trees.");
+                if (visited[i]) continue;
+                if (!makeGroup(i)) result++;
             }
 
-            t++;
+            if (result == 0) System.out.println("Case " + caseCount + ": No trees.");
+            if (result == 1) System.out.println("Case " + caseCount + ": There is one tree.");
+            if (result > 1) System.out.println("Case " + caseCount + ": A forest of " + result + " trees.");
+
+            caseCount++;
         }
+
+
     }
 
-    static void findCycle() {
-        for (Edge e : edges) {
-            int p1 = find(e.start);
-            int p2 = find(e.end);
-            if (p1 == p2) {
-                hasCycle[p1] = true;
-            } else {
-                int result = union(p1, p2);
-                if (hasCycle[p1] || hasCycle[p2]) {
-                    hasCycle[result] = true;
+    static boolean makeGroup(int start) {
+        Queue<int[]> q = new ArrayDeque<>();
+        q.add(new int[]{start, start});
+        visited[start] = true;
+
+        boolean looped = false;
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            for (int next : edges[cur[1]]) {
+                if (next == cur[0]) continue;
+
+                if (visited[next]) {
+                    looped = true;
+                    continue;
                 }
+
+
+                visited[next] = true;
+                q.add(new int[]{cur[1], next});
             }
         }
-    }
 
-    static int find(int x) {
-        int root = x;
-        while (root != parent[root]) {
-            root = parent[root];
-        }
-
-        while (x != root) {
-            int temp = parent[x];
-            parent[x] = root;
-            x = temp;
-        }
-
-        return root;
-    }
-
-    static int union(int p1, int p2) {
-        int root1 = find(p1);
-        int root2 = find(p2);
-
-        if (root1 < root2) {
-            parent[root2] = root1;
-            return root1;
-        } else {
-            parent[root1] = root2;
-            return root2;
-        }
-    }
-
-    static class Edge {
-        int start, end;
-
-        public Edge(int start, int end) {
-            this.start = start;
-            this.end = end;
-        }
+        return looped;
     }
 }
