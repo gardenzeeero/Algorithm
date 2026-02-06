@@ -1,61 +1,48 @@
+import java.io.*;
 import java.util.*;
 
 class Solution {
-    int[] info;
-    ArrayList<ArrayList<Integer>> edges;
-    int maxSheep = 1;
     
-    class Node {
-        int now, sheep, wolf;
-        HashSet<Integer> adjacent = new HashSet<>();
-        
-        public Node(int now, int sheep, int wolf) {
-            this.now = now; this.sheep = sheep; this.wolf = wolf;
-        }
-    }
+    static int result = 0;
+    static int n;
+    static int[] gInfo;
+    static ArrayList<Integer>[] gEdges;
+    
     
     public int solution(int[] info, int[][] edges) {
-        init(info, edges);
         
-        Node root = new Node(0, 1, 0);
-        for (int to : this.edges.get(0)) {
-            root.adjacent.add(to);
+        gEdges = new ArrayList[info.length];
+        for (int i=0; i<info.length; i++) {
+            gEdges[i] = new ArrayList<Integer>();
+        }
+        n = info.length;
+        gInfo = info;
+        for (int i=0; i<edges.length; i++) {
+            gEdges[(edges[i][0])].add(edges[i][1]);
         }
         
-        dfs(root);
+        dfs(0, new boolean[info.length], 1, 0);
         
-        return maxSheep;
+        return result;
     }
     
-    public void dfs(Node cur) {
+    void dfs(int cur, boolean[] canGo, int sheep, int wolf) {
+        result = Math.max(result, sheep);
+        canGo[cur] = false;
         
-        for (int nextIdx : cur.adjacent) {
-            if (cur.wolf + info[nextIdx] >= cur.sheep) continue;
+        for (int next : gEdges[cur]) {
+            canGo[next] = true;
+        }
+        
+        for (int next=0; next<n; next++) {
+            if (!canGo[next]) continue;
             
-            int plusSheep = info[nextIdx] == 0 ? 1 : 0;
-            Node nextNode = new Node(nextIdx, cur.sheep + plusSheep, cur.wolf + info[nextIdx]);
-            
-            //갈 수 있는 곳 설정
-            HashSet<Integer> nextAdjacent = new HashSet<>(cur.adjacent);
-            for (int n : edges.get(nextIdx)){
-                nextAdjacent.add(n);
+            if (gInfo[next] == 0) dfs(next, Arrays.copyOf(canGo, canGo.length), sheep+1, wolf);
+            else if (gInfo[next] == 1 && (sheep > wolf + 1)) {
+                dfs(next, Arrays.copyOf(canGo, canGo.length), sheep, wolf + 1);
             }
-            nextAdjacent.remove(nextIdx);  //자신은 제외
-            nextNode.adjacent = nextAdjacent;
-            
-            //양의 수 비교
-            maxSheep = Math.max(maxSheep, nextNode.sheep);
-            
-            dfs(nextNode);
         }
     }
     
-    public void init(int[] info, int[][] edges) {
-        this.info = info;
-        
-        this.edges = new ArrayList<>();
-        for (int i=0; i<info.length; i++) this.edges.add(new ArrayList<>());
-        
-        for (int i=0; i<edges.length; i++) this.edges.get(edges[i][0]).add(edges[i][1]);
-    }
+    
 }
