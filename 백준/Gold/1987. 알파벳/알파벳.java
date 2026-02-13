@@ -9,7 +9,7 @@ public class Main {
     static int[] dx = {-1, 0, 1, 0};
     static int[] dy = {0, -1, 0, 1};
     static HashMap<Integer, Integer>[][] memo;
-    static char[][] map;
+    static int[][] map;
     static int r, c;
 
     public static void main(String[] args) throws IOException {
@@ -19,10 +19,13 @@ public class Main {
         r = Integer.parseInt(st.nextToken());
         c = Integer.parseInt(st.nextToken());
 
-        map = new char[r][c];
+        map = new int[r][c];
 
         for (int i = 0; i < r; i++) {
-            map[i] = br.readLine().toCharArray();
+            char[] input = br.readLine().toCharArray();
+            for (int j = 0; j < c; j++) {
+                map[i][j] = input[j] - 'A';
+            }
         }
 
         memo = new HashMap[r][c];
@@ -32,8 +35,8 @@ public class Main {
             }
         }
 
-        find(0, 0, (1 << (map[0][0] - 'A')));
-        System.out.println(memo[0][0].get(1 << (map[0][0] - 'A')));
+        find(0, 0, 1 << map[0][0]);
+        System.out.println(memo[0][0].get(1 << map[0][0]));
     }
 
     static int find(int sx, int sy, int used) {
@@ -43,8 +46,8 @@ public class Main {
         for (int i = 0; i < 4; i++) {
             int nx = sx + dx[i], ny = sy + dy[i];
             if (nx < 0 || nx >= r || ny < 0 || ny >= c) continue;
-            if (((1 << (map[nx][ny] - 'A')) & used) != 0) continue;
-            count = Math.max(count, find(nx, ny, used | (1 << (map[nx][ny] - 'A'))));
+            if (((1 << map[nx][ny]) & used) != 0) continue;
+            count = Math.max(count, find(nx, ny, used | (1 << map[nx][ny])));
         }
 
         memo[sx][sy].put(used, 1 + count);
