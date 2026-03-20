@@ -1,37 +1,36 @@
-import javax.swing.plaf.basic.BasicSplitPaneUI;
-import java.io.*;
-import java.nio.file.attribute.FileStoreAttributeView;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
 
 public class Main {
-
-    static PriorityQueue<Integer> left = new PriorityQueue<>((a, b) -> Integer.compare(b, a));
-    static PriorityQueue<Integer> right = new PriorityQueue<>();
-
-    public static void main(String[] args) throws IOException {
+    
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        int n = Integer.parseInt(br.readLine());
 
-        int n = input[0];
+        PriorityQueue<Integer> first = new PriorityQueue<>((a, b) -> Integer.compare(b, a));
+        PriorityQueue<Integer> second = new PriorityQueue<>((a, b) -> Integer.compare(a, b));
 
+        StringBuilder sb = new StringBuilder();
+        for (int i=0; i<n; i++) {
+            int num = Integer.parseInt(br.readLine());
 
-        int inputNum = Integer.parseInt(br.readLine());
-        left.add(inputNum);
-        System.out.println(left.peek());
-        for (int i=1; i<n; i++) {
-            inputNum = Integer.parseInt(br.readLine());
+            Integer middle = first.peek();
 
-            int leftNum = left.peek();
-            if (leftNum < inputNum) {
-                right.add(inputNum);
-                if (right.size() > left.size()) left.add(right.poll());
+            if (middle == null) {
+                first.add(num);
+            } else if (num < middle) {
+                if (first.size() > second.size()) second.add(first.poll());
+                first.add(num);
             } else {
-                left.add(inputNum);
-                if (left.size() - 1 > right.size()) {
-                    right.add(left.poll());
-                }
+                second.add(num);
+                if (first.size() < second.size()) first.add(second.poll());
+                
             }
-            System.out.println(left.peek());
+
+            sb.append(first.peek()).append('\n');
         }
+        System.out.println(sb);
     }
 }
